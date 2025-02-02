@@ -2,6 +2,8 @@ import java.util.Scanner;
 
 public class Yoshi {
 
+    public static final int MAX_TASKS = 100;
+
     public static void addTask(Task[] tasks, int numTasks, String line) {
         tasks[numTasks] = new Task(line);
         System.out.println("    ____________________________________________________________");
@@ -46,10 +48,10 @@ public class Yoshi {
         System.out.println("    ____________________________________________________________");
 
         Scanner in = new Scanner(System.in);
-        Task[] tasks = new Task[100];
+        Task[] tasks = new Task[MAX_TASKS];
         int numTasks = 0;
 
-        while(numTasks < 100) {
+        while(numTasks < MAX_TASKS) {
             String line = in.nextLine();
             String[] words = line.split(" ");
             switch(words[0]) {

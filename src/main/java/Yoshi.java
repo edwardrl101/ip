@@ -5,6 +5,10 @@ public class Yoshi {
     public static final int MAX_TASKS = 100;
 
     public static void addTask(Task[] tasks, int numTasks, String line) {
+        if(numTasks >= MAX_TASKS) {
+            System.out.println("Oops! Unable to add task: your task list is full!");
+            return;
+        }
         tasks[numTasks] = new Task(line);
         System.out.println("    ____________________________________________________________");
         System.out.println("     added: " + line);
@@ -33,7 +37,6 @@ public class Yoshi {
         System.out.println("    ____________________________________________________________");
     }
 
-
     public static void main(String[] args) {
         System.out.println("    ____________________________________________________________");
         System.out.println("    Hello! I'm Yoshi!");
@@ -50,16 +53,18 @@ public class Yoshi {
         Scanner in = new Scanner(System.in);
         Task[] tasks = new Task[MAX_TASKS];
         int numTasks = 0;
+        boolean USER_IS_CHATTING = true;
 
-        while(numTasks < MAX_TASKS) {
+        while(USER_IS_CHATTING) {
             String line = in.nextLine();
             String[] words = line.split(" ");
             switch(words[0]) {
             case "bye":
+                USER_IS_CHATTING = false;
                 System.out.println("    ____________________________________________________________");
                 System.out.println("    Bye! Hope to see you again soon! Keep working hard! :-)");
                 System.out.println("    ____________________________________________________________");
-                return;
+                break;
             case "list":
                 listTask(tasks, numTasks);
                 break;

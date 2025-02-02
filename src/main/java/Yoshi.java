@@ -5,13 +5,13 @@ public class Yoshi {
     public static final int MAX_TASKS = 100;
 
     public static void addTask(Task[] tasks, int numTasks, String line) {
-        if(numTasks >= MAX_TASKS) {
-            System.out.println("Oops! Unable to add task: your task list is full!");
-            return;
-        }
-        tasks[numTasks] = new Task(line);
         System.out.println("    ____________________________________________________________");
-        System.out.println("     added: " + line);
+        if(numTasks >= MAX_TASKS) {
+            System.out.println("    Oops! Unable to add task: your task list is full!");
+        } else {
+            tasks[numTasks] = new Task(line);
+            System.out.println("     added: " + line);
+        }
         System.out.println("    ____________________________________________________________");
     }
 
@@ -26,14 +26,19 @@ public class Yoshi {
 
     public static void toggleTask(Task[] tasks, int taskNumber, String command) {
         System.out.println("    ____________________________________________________________");
-        if (command.equals("mark")) {
+        if(taskNumber >= MAX_TASKS || taskNumber < 0) {
+            System.out.println("    Invalid task number! Please enter another task number.");
+        } else if(tasks[taskNumber] == null) {
+            System.out.println("    Invalid command! You have no task here.");
+        } else if (command.equals("mark")) {
             tasks[taskNumber].markAsDone();
             System.out.println("     Great job! I've marked this task as done:");
+            System.out.println("      [" + tasks[taskNumber].getStatusIcon() + "] " + tasks[taskNumber].getDescription());
         } else {
             tasks[taskNumber].unmarkAsDone();;
             System.out.println("     Sure! I've marked this task as not done yet:");
+            System.out.println("      [" + tasks[taskNumber].getStatusIcon() + "] " + tasks[taskNumber].getDescription());
         }
-        System.out.println("      [" + tasks[taskNumber].getStatusIcon() + "] " + tasks[taskNumber].getDescription());
         System.out.println("    ____________________________________________________________");
     }
 
@@ -70,8 +75,14 @@ public class Yoshi {
                 break;
             case "mark":
             case "unmark":
-                int taskNumber = Integer.parseInt(words[1]) - 1;
-                toggleTask(tasks, taskNumber, words[0]);
+                if(words.length < 2) {
+                    System.out.println("    ____________________________________________________________");
+                    System.out.println("    Please enter the task number for the command!");
+                    System.out.println("    ____________________________________________________________");
+                } else {
+                    int taskNumber = Integer.parseInt(words[1]) - 1;
+                    toggleTask(tasks, taskNumber, words[0]);
+                }
                 break;
             default:
                 addTask(tasks, numTasks, line);

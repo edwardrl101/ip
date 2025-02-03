@@ -2,17 +2,8 @@ import java.util.Scanner;
 
 public class Yoshi {
     public static void main(String[] args) {
-        System.out.println("    ____________________________________________________________");
-        System.out.println("    Hello! I'm Yoshi!");
-        System.out.println("    __   __  _______  _______  __   __  ___ \n" +
-                "   |  | |  ||       ||       ||  | |  ||   |\n" +
-                "   |  |_|  ||   _   ||  _____||  |_|  ||   |\n" +
-                "   |       ||  | |  || |_____ |       ||   |\n" +
-                "   |_     _||  |_|  ||_____  ||       ||   |\n" +
-                "     |   |  |       | _____| ||   _   ||   |\n" +
-                "     |___|  |_______||_______||__| |__||___|");
-        System.out.println("    How may I assist you today? :D");
-        System.out.println("    ____________________________________________________________");
+        Printer printer = new Printer();
+        printer.printWelcomeMessage();
 
         Scanner in = new Scanner(System.in);
         TaskManager userTaskManager = new TaskManager();
@@ -25,9 +16,7 @@ public class Yoshi {
             switch(words[0]) {
             case "bye":
                 USER_IS_CHATTING = false;
-                System.out.println("    ____________________________________________________________");
-                System.out.println("    Bye! Hope to see you again soon! Keep working hard! :-)");
-                System.out.println("    ____________________________________________________________");
+                printer.printGoodbyeMessage();
                 break;
             case "list":
                 userTaskManager.listTask();
@@ -35,9 +24,7 @@ public class Yoshi {
             case "mark":
             case "unmark":
                 if(words.length < 2) {
-                    System.out.println("    ____________________________________________________________");
-                    System.out.println("    Please enter the task number for the command!");
-                    System.out.println("    ____________________________________________________________");
+                    printer.printWithSeparator("Invalid command: Please enter the task number for this command.");
                 } else {
                     int taskNumber = Integer.parseInt(words[1]) - 1;
                     userTaskManager.toggleTask(taskNumber, words[0]);

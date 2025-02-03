@@ -2,10 +2,12 @@ public class TaskManager {
     private static final int MAX_TASKS = 100;
     private Task[] tasks;
     private int numTasks;
+    private Printer printer;
 
     public TaskManager() {
         this.tasks = new Task[MAX_TASKS];
         this.numTasks = 0;
+        this.printer = new Printer();
     }
 
     public Todo initializeTodo(String line) {
@@ -28,75 +30,78 @@ public class TaskManager {
         return new Event(activity, from, to);
     }
 
-    public boolean isValidInput(String[] taskParts) {
+    public boolean isValidAddTask(String[] taskParts) {
         if(!taskParts[0].equals("todo") && !taskParts[0].equals("deadline") && !taskParts[0].equals("event")) {
-            System.out.println("    Invalid command: Please enter a valid task type.");
-            System.out.println("    ____________________________________________________________");
+            printer.printWithSeparator("Invalid command: Please enter a valid task type.");
             return false;
         }
         if(taskParts.length < 2) {
-            System.out.println("    Invalid command: Please specify the task details.");
-            System.out.println("    ____________________________________________________________");
+            printer.printWithSeparator("Invalid command: Please specify the task details.");
             return false;
+        }
+        if(numTasks >= MAX_TASKS) {
+            printer.printWithSeparator("Unable to add task: your task list is full!.");
         }
         return true;
     }
 
 
     public void addTask(String line) {
-        System.out.println("    ____________________________________________________________");
-        if(numTasks >= MAX_TASKS) {
-            System.out.println("    Oops! Unable to add task: your task list is full!");
-        } else {
-            String[] taskParts = line.split(" ", 2);
-            if(!isValidInput(taskParts)) {
-                return;
-            }
-            String taskType = taskParts[0].trim();
-            String taskDetails = taskParts[1].trim();
-            switch(taskType) {
-            case "deadline":
-                tasks[numTasks] = initializeDeadline(taskDetails);
-                break;
-            case "event":
-                tasks[numTasks] = initializeEvent(taskDetails);
-                break;
-            default:
-                tasks[numTasks] = initializeTodo(taskDetails);
-                break;
-            }
-            System.out.println("    Sure! I've added this task:");
-            System.out.println("     " + tasks[numTasks]);
-            numTasks++;
-            System.out.println("    You now have " + numTasks + " tasks in your list!");
+        String[] taskParts = line.split(" ", 2);
+        if(!isValidAddTask(taskParts)) {
+            return;
         }
-        System.out.println("    ____________________________________________________________");
+        String taskType = taskParts[0].trim();
+        String taskDetails = taskParts[1].trim();
+        switch(taskType) {
+        case "deadline":
+            tasks[numTasks] = initializeDeadline(taskDetails);
+            break;
+        case "event":
+            tasks[numTasks] = initializeEvent(taskDetails);
+            break;
+        default:
+            tasks[numTasks] = initializeTodo(taskDetails);
+            break;
+        }
+        printer.printAddTextMessage(numTasks, tasks);
+        numTasks++;
     }
 
     public void listTask() {
-        System.out.println("    ____________________________________________________________");
-        System.out.println("     Here are the tasks in your list:");
+        printer.printLine();
+        printer.printWithIndentation(" Here are the tasks in your list:");
         for (int i = 1; i <= numTasks; i++) {
-            System.out.println("     " + i +"." + tasks[i-1]);
+            printer.printWithIndentation( " " + i +"." + tasks[i-1]);
         }
-        System.out.println("    ____________________________________________________________");
+        printer.printLine();
+    }
+
+    public boolean isValidToggleTask(int taskNumber) {
+        if(taskNumber < 0 || taskNumber >= MAX_TASKS) {
+            printer.printWithSeparator("Invalid task number: Please enter a valid task number.");
+            return false;
+        }
+        if(tasks[taskNumber] == null) {
+            printer.printWithSeparator("Invalid command: You have no task here.");
+            return false;
+        }
+        return true;
     }
 
     public void toggleTask(int taskNumber, String command) {
-        System.out.println("    ____________________________________________________________");
-        if(taskNumber >= MAX_TASKS || taskNumber < 0) {
-            System.out.println("    Invalid task number! Please enter another task number.");
-        } else if(tasks[taskNumber] == null) {
-            System.out.println("    Invalid command! You have no task here.");
-        } else if (command.equals("mark")) {
+        if(!isValidToggleTask(taskNumber)) {
+            return;
+        }
+        printer.printLine();
+        if (command.equals("mark")) {
             tasks[taskNumber].markAsDone();
-            System.out.println("     Great job! I've marked this task as done:");
-            System.out.println("      " + tasks[taskNumber]);
+            printer.printWithIndentation(" Great job! I've marked this task as done:");
         } else {
             tasks[taskNumber].unmarkAsDone();;
-            System.out.println("     Sure! I've marked this task as not done yet:");
-            System.out.println("      " + tasks[taskNumber]);
+            printer.printWithIndentation( " Sure! I've marked this task as not done yet:");
         }
-        System.out.println("    ____________________________________________________________");
+        printer.printWithIndentation("  " + tasks[taskNumber]);
+        printer.printLine();
     }
 }

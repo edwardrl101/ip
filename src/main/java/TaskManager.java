@@ -28,18 +28,33 @@ public class TaskManager {
         return new Event(activity, from, to);
     }
 
+    public boolean isValidInput(String[] taskParts) {
+        if(!taskParts[0].equals("todo") && !taskParts[0].equals("deadline") && !taskParts[0].equals("event")) {
+            System.out.println("    Invalid command: Please enter a valid task type.");
+            System.out.println("    ____________________________________________________________");
+            return false;
+        }
+        if(taskParts.length < 2) {
+            System.out.println("    Invalid command: Please specify the task details.");
+            System.out.println("    ____________________________________________________________");
+            return false;
+        }
+        return true;
+    }
+
+
     public void addTask(String line) {
         System.out.println("    ____________________________________________________________");
         if(numTasks >= MAX_TASKS) {
             System.out.println("    Oops! Unable to add task: your task list is full!");
         } else {
             String[] taskParts = line.split(" ", 2);
+            if(!isValidInput(taskParts)) {
+                return;
+            }
             String taskType = taskParts[0].trim();
             String taskDetails = taskParts[1].trim();
             switch(taskType) {
-            case "todo":
-                tasks[numTasks] = initializeTodo(taskDetails);
-                break;
             case "deadline":
                 tasks[numTasks] = initializeDeadline(taskDetails);
                 break;
@@ -47,7 +62,7 @@ public class TaskManager {
                 tasks[numTasks] = initializeEvent(taskDetails);
                 break;
             default:
-                tasks[numTasks] = new Task(line);
+                tasks[numTasks] = initializeTodo(taskDetails);
                 break;
             }
             System.out.println("    Sure! I've added this task:");

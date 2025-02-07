@@ -38,7 +38,9 @@ public class Printer {
         printLine();
         printWithIndentation("Sure! I've added this task:");
         printWithIndentation(" " + tasks[numTasks]);
-        printWithIndentation("You now have " + (numTasks + 1) + " tasks in your list!");
+        printWithIndentation("You now have " + (numTasks + 1) +
+                " " + ((numTasks + 1) == 1 ? "task" : "tasks") + " in your list!");
+
         printLine();
     }
 }

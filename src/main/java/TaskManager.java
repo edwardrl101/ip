@@ -31,7 +31,8 @@ public class TaskManager {
     }
 
     public boolean isValidAddTask(String[] taskParts) {
-        if(!taskParts[0].equals("todo") && !taskParts[0].equals("deadline") && !taskParts[0].equals("event")) {
+        String lowerCaseTaskType = taskParts[0].toLowerCase();
+        if(!lowerCaseTaskType.equals("todo") && !lowerCaseTaskType.equals("deadline") && !lowerCaseTaskType.equals("event")) {
             printer.printWithSeparator("Invalid command: Please enter a valid task type.");
             return false;
         }

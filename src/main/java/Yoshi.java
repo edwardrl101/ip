@@ -13,7 +13,7 @@ public class Yoshi {
         while(USER_IS_CHATTING) {
             String line = in.nextLine();
             String[] words = line.split(" ");
-            switch(words[0]) {
+            switch(words[0].toLowerCase()) {
             case "bye":
                 USER_IS_CHATTING = false;
                 printer.printGoodbyeMessage();
@@ -27,7 +27,7 @@ public class Yoshi {
                     printer.printWithSeparator("Invalid command: Please enter the task number for this command.");
                 } else {
                     int taskNumber = Integer.parseInt(words[1]) - 1;
-                    userTaskManager.toggleTask(taskNumber, words[0]);
+                    userTaskManager.toggleTask(taskNumber, words[0].toLowerCase());
                 }
                 break;
             default:

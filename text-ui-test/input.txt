@@ -1,0 +1,10 @@
+Todo play piano
+mark 1
+unmark 1
+deadline do homework /by 6pm
+mark 2
+list
+event group project meeting /from 2pm /to 4pm
+mark 3
+unmark 3
+list

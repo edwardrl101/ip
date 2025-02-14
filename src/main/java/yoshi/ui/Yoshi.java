@@ -1,3 +1,7 @@
+package yoshi.ui;
+
+import yoshi.task.TaskManager;
+
 import java.util.Scanner;
 
 public class Yoshi {

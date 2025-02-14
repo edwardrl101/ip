@@ -10,32 +10,7 @@ public class TaskManager {
         this.printer = new Printer();
     }
 
-    public Todo initializeTodo(String line) {
-        return new Todo(line);
-    }
-
-    public Deadline initializeDeadline(String line) {
-        String[] taskParts = line.split("/by", 2);
-        String activity = taskParts[0].trim();
-        String by = taskParts[1].trim();
-        return new Deadline(activity, by);
-    }
-
-    public Event initializeEvent(String line) {
-        String[] taskParts = line.split("/from", 2);
-        String activity = taskParts[0].trim();
-        String[] dates = taskParts[1].split("/to", 2);
-        String from = dates[0].trim();
-        String to = dates[1].trim();
-        return new Event(activity, from, to);
-    }
-
-    public boolean isValidAddTask(String[] taskParts) {
-        String lowerCaseTaskType = taskParts[0].toLowerCase();
-        if(!lowerCaseTaskType.equals("todo") && !lowerCaseTaskType.equals("deadline") && !lowerCaseTaskType.equals("event")) {
-            printer.printWithSeparator("Invalid command: Please enter a valid task type.");
-            return false;
-        }
+    public boolean isValidTaskAdded(String[] taskParts) {
         if(taskParts.length < 2) {
             printer.printWithSeparator("Invalid command: Please specify the task details.");
             return false;
@@ -46,30 +21,75 @@ public class TaskManager {
         return true;
     }
 
+    public Task initializeTask(String taskDetails, String taskType) {
+        Task addedTask;
+        switch (taskType) {
+        case "deadline":
+            addedTask = initializeDeadline(taskDetails);
+            break;
+        case "event":
+            addedTask = initializeEvent(taskDetails);
+            break;
+        default:
+            addedTask = initializeTodo(taskDetails);
+            break;
+        }
+        return addedTask;
+    }
 
-    public void addTask(String line) {
-        String[] taskParts = line.split(" ", 2);
-        if(!isValidAddTask(taskParts)) {
+    public Todo initializeTodo(String task) {
+        return new Todo(task);
+    }
+
+    public Deadline initializeDeadline(String task) throws ArrayIndexOutOfBoundsException {
+        String[] taskParts = task.split("/by", 2);
+        if(taskParts.length < 2) {
+            throw new ArrayIndexOutOfBoundsException("Invalid command: Please specify the deadline.\n"
+            + "     Check that your usage of /by is correct.");
+        }
+        String activity = taskParts[0].trim();
+        String by = taskParts[1].trim();
+        return new Deadline(activity, by);
+    }
+
+    public Event initializeEvent(String task) throws ArrayIndexOutOfBoundsException {
+        String[] taskParts = task.split("/from", 2);
+        if(taskParts.length < 2) {
+            throw new ArrayIndexOutOfBoundsException("Invalid command: Please specify the event start time.\n"
+            + "     Check that your usage of /from is correct");
+        }
+        String activity = taskParts[0].trim();
+        String[] dates = taskParts[1].split("/to", 2);
+        if(dates.length < 2) {
+            throw new ArrayIndexOutOfBoundsException("Invalid command: Please specify the event end time.\n"
+            + "     Check that your usage of /to is correct");
+        }
+        String from = dates[0].trim();
+        String to = dates[1].trim();
+        return new Event(activity, from, to);
+    }
+
+    public void addTask(String task) {
+        String[] taskParts = task.split(" ", 2);
+        if(!isValidTaskAdded(taskParts)) {
             return;
         }
         String taskType = taskParts[0].trim();
         String taskDetails = taskParts[1].trim();
-        switch(taskType) {
-        case "deadline":
-            tasks[numTasks] = initializeDeadline(taskDetails);
-            break;
-        case "event":
-            tasks[numTasks] = initializeEvent(taskDetails);
-            break;
-        default:
-            tasks[numTasks] = initializeTodo(taskDetails);
-            break;
+        try {
+            tasks[numTasks] = initializeTask(taskDetails, taskType);
+            printer.printAddTextMessage(numTasks, tasks);
+            numTasks++;
+        } catch(ArrayIndexOutOfBoundsException e) {
+            printer.printWithSeparator(e.getMessage());
         }
-        printer.printAddTextMessage(numTasks, tasks);
-        numTasks++;
     }
 
     public void listTask() {
+        if(numTasks == 0) {
+            printer.printWithSeparator("Oh no! You have no tasks in your list!");
+            return;
+        }
         printer.printLine();
         printer.printWithIndentation(" Here are the tasks in your list:");
         for (int i = 1; i <= numTasks; i++) {
@@ -80,7 +100,7 @@ public class TaskManager {
 
     public boolean isValidToggleTask(int taskNumber) {
         if(taskNumber < 0 || taskNumber >= MAX_TASKS) {
-            printer.printWithSeparator("Invalid task number: Please enter a valid task number.");
+            printer.printWithSeparator("Invalid task number: Please enter a valid task number (1-100).");
             return false;
         }
         if(tasks[taskNumber] == null) {

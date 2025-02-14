@@ -11,12 +11,16 @@ public class Yoshi {
         boolean USER_IS_CHATTING = true;
 
         while(USER_IS_CHATTING) {
+            if (!in.hasNextLine()) {
+                break;
+            }
             String line = in.nextLine();
             String[] words = line.split(" ");
             switch(words[0].toLowerCase()) {
             case "bye":
                 USER_IS_CHATTING = false;
                 printer.printGoodbyeMessage();
+                in.close();
                 break;
             case "list":
                 userTaskManager.listTask();
@@ -30,9 +34,14 @@ public class Yoshi {
                     userTaskManager.toggleTask(taskNumber, words[0].toLowerCase());
                 }
                 break;
-            default:
+            case "event":
+            case "deadline":
+            case "todo":
                 userTaskManager.addTask(line);
                 break;
+            default:
+                printer.printWithSeparator("Sorry, I am still too underdeveloped to understand that :(\n" +
+                        "    Please give me a valid command.");
             }
         }
     }

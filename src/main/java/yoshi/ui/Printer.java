@@ -1,3 +1,7 @@
+package yoshi.ui;
+
+import yoshi.task.Task;
+
 public class Printer {
     private static final String INDENT = "    ";
     private static final String LINE = INDENT + "____________________________________________________________";

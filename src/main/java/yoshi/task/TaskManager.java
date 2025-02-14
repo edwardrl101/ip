@@ -1,3 +1,7 @@
+package yoshi.task;
+
+import yoshi.ui.Printer;
+
 public class TaskManager {
     private static final int MAX_TASKS = 100;
     private Task[] tasks;

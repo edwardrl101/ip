@@ -11,11 +11,6 @@ public class TaskManager {
     }
 
     public boolean isValidTaskAdded(String[] taskParts) {
-        String lowerCaseTaskType = taskParts[0].toLowerCase();
-        if(!lowerCaseTaskType.equals("todo") && !lowerCaseTaskType.equals("deadline") && !lowerCaseTaskType.equals("event")) {
-            printer.printWithSeparator("Invalid command: Please enter a valid task type.");
-            return false;
-        }
         if(taskParts.length < 2) {
             printer.printWithSeparator("Invalid command: Please specify the task details.");
             return false;
@@ -102,7 +97,7 @@ public class TaskManager {
 
     public boolean isValidToggleTask(int taskNumber) {
         if(taskNumber < 0 || taskNumber >= MAX_TASKS) {
-            printer.printWithSeparator("Invalid task number: Please enter a valid task number.");
+            printer.printWithSeparator("Invalid task number: Please enter a valid task number (1-100).");
             return false;
         }
         if(tasks[taskNumber] == null) {

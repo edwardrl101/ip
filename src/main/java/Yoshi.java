@@ -11,12 +11,16 @@ public class Yoshi {
         boolean USER_IS_CHATTING = true;
 
         while(USER_IS_CHATTING) {
+            if (!in.hasNextLine()) {
+                break;
+            }
             String line = in.nextLine();
             String[] words = line.split(" ");
             switch(words[0].toLowerCase()) {
             case "bye":
                 USER_IS_CHATTING = false;
                 printer.printGoodbyeMessage();
+                in.close();
                 break;
             case "list":
                 userTaskManager.listTask();

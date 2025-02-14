@@ -37,14 +37,15 @@ public class TaskManager {
         return addedTask;
     }
 
-    public Todo initializeTodo(String line) {
-        return new Todo(line);
+    public Todo initializeTodo(String task) {
+        return new Todo(task);
     }
 
-    public Deadline initializeDeadline(String line) throws ArrayIndexOutOfBoundsException {
-        String[] taskParts = line.split("/by", 2);
+    public Deadline initializeDeadline(String task) throws ArrayIndexOutOfBoundsException {
+        String[] taskParts = task.split("/by", 2);
         if(taskParts.length < 2) {
-            throw new ArrayIndexOutOfBoundsException("Invalid command: Please specify the deadline.");
+            throw new ArrayIndexOutOfBoundsException("Invalid command: Please specify the deadline.\n"
+            + "     Check that your usage of /by is correct.");
         }
         String activity = taskParts[0].trim();
         String by = taskParts[1].trim();
@@ -54,20 +55,22 @@ public class TaskManager {
     public Event initializeEvent(String task) throws ArrayIndexOutOfBoundsException {
         String[] taskParts = task.split("/from", 2);
         if(taskParts.length < 2) {
-            throw new ArrayIndexOutOfBoundsException("Invalid command: Please specify the event start time.");
+            throw new ArrayIndexOutOfBoundsException("Invalid command: Please specify the event start time.\n"
+            + "     Check that your usage of /from is correct");
         }
         String activity = taskParts[0].trim();
         String[] dates = taskParts[1].split("/to", 2);
         if(dates.length < 2) {
-            throw new ArrayIndexOutOfBoundsException("Invalid command: Please specify the event end time.");
+            throw new ArrayIndexOutOfBoundsException("Invalid command: Please specify the event end time.\n"
+            + "     Check that your usage of /to is correct");
         }
         String from = dates[0].trim();
         String to = dates[1].trim();
         return new Event(activity, from, to);
     }
 
-    public void addTask(String line) {
-        String[] taskParts = line.split(" ", 2);
+    public void addTask(String task) {
+        String[] taskParts = task.split(" ", 2);
         if(!isValidTaskAdded(taskParts)) {
             return;
         }

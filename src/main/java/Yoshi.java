@@ -30,9 +30,14 @@ public class Yoshi {
                     userTaskManager.toggleTask(taskNumber, words[0].toLowerCase());
                 }
                 break;
-            default:
+            case "event":
+            case "deadline":
+            case "todo":
                 userTaskManager.addTask(line);
                 break;
+            default:
+                printer.printWithSeparator("Sorry, I am still too underdeveloped to understand that :(\n" +
+                        "    Please give me a valid command.");
             }
         }
     }

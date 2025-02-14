@@ -11,47 +11,31 @@
     ____________________________________________________________
     ____________________________________________________________
     Sure! I've added this task:
-     [T][ ] play piano
+     [T][ ] Edward Rafael Lukito: Answer CS2113 tutorial questions
     You now have 1 task in your list!
     ____________________________________________________________
     ____________________________________________________________
-     Great job! I've marked this task as done:
-      [T][X] play piano
-    ____________________________________________________________
-    ____________________________________________________________
-     Sure! I've marked this task as not done yet:
-      [T][ ] play piano
-    ____________________________________________________________
-    ____________________________________________________________
     Sure! I've added this task:
-     [D][ ] do homework (by: 6pm)
+     [D][ ] weekly CS2113 quiz (by: Monday 9pm)
     You now have 2 tasks in your list!
     ____________________________________________________________
     ____________________________________________________________
-     Great job! I've marked this task as done:
-      [D][X] do homework (by: 6pm)
-    ____________________________________________________________
-    ____________________________________________________________
      Here are the tasks in your list:
-     1.[T][ ] play piano
-     2.[D][X] do homework (by: 6pm)
+     1.[T][ ] Edward Rafael Lukito: Answer CS2113 tutorial questions
+     2.[D][ ] weekly CS2113 quiz (by: Monday 9pm)
     ____________________________________________________________
     ____________________________________________________________
     Sure! I've added this task:
-     [E][ ] group project meeting (from: 2pm to: 4pm)
+     [E][ ] CS2113 lecture (from: Friday 4 to: 6pm)
     You now have 3 tasks in your list!
     ____________________________________________________________
     ____________________________________________________________
      Great job! I've marked this task as done:
-      [E][X] group project meeting (from: 2pm to: 4pm)
-    ____________________________________________________________
-    ____________________________________________________________
-     Sure! I've marked this task as not done yet:
-      [E][ ] group project meeting (from: 2pm to: 4pm)
+      [T][X] Edward Rafael Lukito: Answer CS2113 tutorial questions
     ____________________________________________________________
     ____________________________________________________________
      Here are the tasks in your list:
-     1.[T][ ] play piano
-     2.[D][X] do homework (by: 6pm)
-     3.[E][ ] group project meeting (from: 2pm to: 4pm)
+     1.[T][X] Edward Rafael Lukito: Answer CS2113 tutorial questions
+     2.[D][ ] weekly CS2113 quiz (by: Monday 9pm)
+     3.[E][ ] CS2113 lecture (from: Friday 4 to: 6pm)
     ____________________________________________________________

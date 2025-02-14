@@ -1,10 +1,6 @@
-Todo play piano
-mark 1
-unmark 1
-deadline do homework /by 6pm
-mark 2
+todo Edward Rafael Lukito: Answer CS2113 tutorial questions
+deadline weekly CS2113 quiz /by Monday 9pm
 list
-event group project meeting /from 2pm /to 4pm
-mark 3
-unmark 3
+event CS2113 lecture /from Friday 4 /to 6pm
+mark 1
 list

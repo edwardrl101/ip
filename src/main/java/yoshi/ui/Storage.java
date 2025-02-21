@@ -15,11 +15,11 @@ import yoshi.task.Todo;
 
 public class Storage {
     static Printer printer = new Printer();
-    static String filePath = "src/main/java/yoshi/data/yoshi.txt";
+    static String filePath = "./yoshi/data/yoshi.txt";
 
     public static void updateFile(ArrayList<Task> tasks) throws FileNotFoundException, IOException {
-        try { //overwriting the file
-            FileWriter f = new FileWriter(filePath); // create a File for the given file path
+        try {
+            FileWriter f = new FileWriter(filePath);
             int numTasks = 0;
             for (Task task : tasks) {
                 if (task.getDoneStatus()) {
@@ -45,7 +45,7 @@ public class Storage {
             f.close();
             printer.printWithSeparator("File has been updated successfully!");
         } catch (FileNotFoundException e) {
-            printer.printWithSeparator("File not found: " + filePath);
+            printer.printWithSeparator("");
         } catch (IOException e) {
             printer.printWithSeparator("Error updating file: " + e.getMessage());
         }
@@ -53,8 +53,8 @@ public class Storage {
 
     public static void printFileContents() throws FileNotFoundException {
         try {
-            File f = new File(filePath); // create a File for the given file path
-            Scanner s = new Scanner(f); // create a Scanner using the File as the source
+            File f = new File(filePath);
+            Scanner s = new Scanner(f);
             while (s.hasNext()) {
                 System.out.println(s.nextLine());
             }
@@ -65,18 +65,15 @@ public class Storage {
 
     public static void copyContents(ArrayList<Task> tasks) throws FileNotFoundException {
         try {
-            File f = new File(filePath); // create a File for the given file path
-            Scanner s = new Scanner(f); // create a Scanner using the File as the source
+            File f = new File(filePath);
+            Scanner s = new Scanner(f);
             while (s.hasNext()) {
                 String taskFromFile = s.nextLine();
                 String[] words = taskFromFile.split("\\|");
-                //[0] is type, [1] is unmarked/marked, [2] is description
-                //System.out.println(words[0] + ", " + words[1] + ", " + words[2]);
 
-                //System.out.println(words.length);
                 if (words.length < 3) {
                     System.out.println("Invalid task: " + taskFromFile);
-                    continue; //move on to the next task
+                    continue;
                 }
 
                 if (words[0].equals("T")) {

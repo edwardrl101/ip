@@ -45,7 +45,7 @@ public class Printer {
         } catch (FileNotFoundException e) {
             System.out.println("File not found, please check your filepath");
         }
-        System.out.println("    How may I assist you today? :D");
+        System.out.println("\n    How may I assist you today? :D");
         printLine();
     }
 

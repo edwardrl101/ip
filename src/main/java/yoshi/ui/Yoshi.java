@@ -2,10 +2,11 @@ package yoshi.ui;
 
 import yoshi.task.TaskManager;
 
+import java.io.IOException;
 import java.util.Scanner;
 
 public class Yoshi {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         Printer printer = new Printer();
         printer.printWelcomeMessage();
 

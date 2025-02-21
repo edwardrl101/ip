@@ -1,7 +1,10 @@
 package yoshi.task;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import yoshi.ui.Printer;
+import static yoshi.ui.Storage.updateFile;
 
 public class TaskManager {
     private static final int MAX_TASKS = 100;
@@ -84,9 +87,12 @@ public class TaskManager {
         try {
             tasks.add(initializeTask(taskDetails, taskType));
             printer.printAddTextMessage(numTasks, tasks);
+            updateFile(tasks);
             numTasks++;
         } catch(ArrayIndexOutOfBoundsException e) {
             printer.printWithSeparator(e.getMessage());
+        } catch (IOException e) {
+            printer.printWithSeparator("Error: file not found" );
         }
     }
 
@@ -131,7 +137,7 @@ public class TaskManager {
         printer.printLine();
     }
 
-    public void deleteTask(int taskNumber) {
+    public void deleteTask(int taskNumber) throws IOException {
         if(taskNumber >= numTasks || taskNumber < 0) {
             printer.printWithSeparator("Hmm, there's no task to delete here.");
             return;
@@ -139,6 +145,7 @@ public class TaskManager {
             printer.printDeleteTaskMessage(numTasks, tasks, taskNumber);
             tasks.remove(taskNumber);
             numTasks--;
+            updateFile(tasks);
         }
     }
 }

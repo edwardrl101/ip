@@ -8,10 +8,10 @@ import java.util.Scanner;
 public class Yoshi {
     public static void main(String[] args) throws IOException {
         Printer printer = new Printer();
-        printer.printWelcomeMessage();
+        TaskManager userTaskManager = new TaskManager();
+        printer.printWelcomeMessage(userTaskManager.getTasks());
 
         Scanner in = new Scanner(System.in);
-        TaskManager userTaskManager = new TaskManager();
         int numTasks = 0;
         boolean USER_IS_CHATTING = true;
 

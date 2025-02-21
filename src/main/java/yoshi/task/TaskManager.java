@@ -18,6 +18,10 @@ public class TaskManager {
         this.printer = new Printer();
     }
 
+    public ArrayList<Task> getTasks() {
+        return tasks;
+    }
+
     public boolean isValidTaskAdded(String[] taskParts) {
         if(taskParts.length < 2) {
             printer.printWithSeparator("Invalid command: Please specify the task details.");

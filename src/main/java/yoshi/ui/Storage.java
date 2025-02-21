@@ -1,5 +1,4 @@
 package yoshi.ui;
-import yoshi.ui.Printer;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -15,35 +14,24 @@ import yoshi.task.Todo;
 
 public class Storage {
     static Printer printer = new Printer();
-    static String filePath = "yoshi/data/yoshi.txt";
+    static String FILE_PATH = "yoshi.txt";
+    private static final String SUCCESSFUL_UPDATE_MESSAGE = "Yay! Your save file has been updated successfully :D";
 
     public static void updateFile(ArrayList<Task> tasks) throws FileNotFoundException, IOException {
         try {
-            FileWriter f = new FileWriter(filePath);
-            int numTasks = 0;
+            FileWriter f = new FileWriter(FILE_PATH);
             for (Task task : tasks) {
-                if (task.getDoneStatus()) {
-                    if (task.getClass() == Todo.class) {
-                        f.write("T | 1 | "+task.getDescription()+"\n");
-                    } else if (task.getClass() == Deadline.class) {
-                        f.write("D | 1 | "+task.getDescription()+" | "+((Deadline) task).getBy()+"\n");
-                    } else {
-                        f.write("E | 1 | "+task.getDescription()+" | "+((Event) task).getFrom()+" | "+((Event) task).getTo()+"\n");
-                    }
+                String status = task.getDoneStatus() ? "1" : "0";
+                if (task instanceof Todo) {
+                    f.write("T | " + status + " | " + task.getDescription() + "\n");
+                } else if (task instanceof Deadline) {
+                    f.write("D | " + status + " | " + task.getDescription() + " | " + ((Deadline) task).getBy() + "\n");
+                } else if (task instanceof Event) {
+                    f.write("E | " + status + " | " + task.getDescription() + " | " + ((Event) task).getFrom() + " | " + ((Event) task).getTo() + "\n");
                 }
-                else {
-                    if (task.getClass() == Todo.class) {
-                        f.write("T | 0 | "+task.getDescription()+"\n");
-                    } else if (task.getClass() == Deadline.class) {
-                        f.write("D | 0 | "+task.getDescription()+" | "+((Deadline) task).getBy()+"\n");
-                    } else {
-                        f.write("E | 0 | "+task.getDescription()+" | "+((Event) task).getFrom()+" | "+((Event) task).getTo()+"\n");
-                    }
-                }
-                numTasks++;
             }
             f.close();
-            printer.printWithSeparator("File has been updated successfully!");
+            printer.printWithSeparator(SUCCESSFUL_UPDATE_MESSAGE);
         } catch (FileNotFoundException e) {
             System.out.print("");
         } catch (IOException e) {
@@ -51,56 +39,50 @@ public class Storage {
         }
     }
 
-    public static void printFileContents() throws FileNotFoundException {
-        try {
-            File f = new File(filePath);
-            Scanner s = new Scanner(f);
-            while (s.hasNext()) {
-                System.out.println(s.nextLine());
+    public static void copyTasks(File file, ArrayList<Task> tasks) throws FileNotFoundException, IOException {
+        Scanner s = new Scanner(file);
+        while (s.hasNext()) {
+            String foundTask = s.nextLine();
+            String[] parts = foundTask.split("\\|");
+
+            Task task;
+            switch (parts[0].trim()) {
+            case "T":
+                task = new Todo(parts[2].trim());
+                break;
+            case "D":
+                task = new Deadline(parts[2].trim(), parts[3].trim());
+                break;
+            case "E":
+                task = new Event(parts[2].trim(), parts[3].trim(), parts[4].trim());
+                break;
+            default:
+                System.out.println("Sorry! I don't know what this is: " + parts[0]);
+                continue;
             }
-        } catch (FileNotFoundException e) {
-            printer.printWithSeparator("Oh no! You don't have a save file here: " + filePath);
+
+            if ("1".equals(parts[1].trim())) {
+                task.markAsDone();
+            } else {
+                task.unmarkAsDone();
+            }
+
+            tasks.add(task);
         }
     }
 
-    public static void copyContents(ArrayList<Task> tasks) throws FileNotFoundException {
-        try {
-            File f = new File(filePath);
-            Scanner s = new Scanner(f);
-            while (s.hasNext()) {
-                String taskFromFile = s.nextLine();
-                String[] words = taskFromFile.split("\\|");
-
-                if (words.length < 3) {
-                    System.out.println("Invalid task: " + taskFromFile);
-                    continue;
-                }
-
-                if (words[0].equals("T")) {
-                    tasks.add(new Todo(words[2]));
-                    if (words[1].equals("1")) {
-                        tasks.get(tasks.size() - 1).markAsDone();
-                    } else {
-                        tasks.get(tasks.size() - 1).unmarkAsDone();
-                    }
-                } else if (words[0].equals("D")) {
-                    tasks.add(new Deadline(words[2], words[3]));
-                    if (words[1].equals("1")) {
-                        tasks.get(tasks.size() - 1).markAsDone();
-                    } else {
-                        tasks.get(tasks.size() - 1).unmarkAsDone();
-                    }
-                } else {
-                    tasks.add(new Event(words[2], words[3], words[4]));
-                    if (words[1].equals("1")) {
-                        tasks.get(tasks.size() - 1).markAsDone();
-                    } else {
-                        tasks.get(tasks.size() - 1).unmarkAsDone();
-                    }
-                }
+    public static void readFile(ArrayList<Task> tasks) throws IOException {
+        File f = new File(FILE_PATH);
+        if (f.exists() && !f.isDirectory()) {
+            File file = new File(FILE_PATH); // create a File for the given file path
+            copyTasks(file, tasks);
+        } else {
+            try {
+                File file = new File(FILE_PATH);
+                file.createNewFile();
+            } catch (IOException e) {
+                printer.printWithSeparator("Oh no! I failed to create a file here: " + FILE_PATH);
             }
-        } catch (FileNotFoundException e) {
-           printer.printWithSeparator("Oh no! You don't have a save file here: " + filePath);
         }
     }
 }

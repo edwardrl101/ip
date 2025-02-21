@@ -3,9 +3,10 @@ package yoshi.ui;
 import yoshi.task.Task;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 
-import static yoshi.ui.Storage.copyContents;
+import static yoshi.ui.Storage.readFile;
 
 public class Printer {
     private static final String INDENT = "    ";
@@ -40,10 +41,12 @@ public class Printer {
                 "     |___|  |_______||_______||__| |__||___|");
         System.out.println("Your current list of tasks:");
         try {
-            copyContents(tasks);
+            readFile(tasks);
             printTasks(tasks);
         } catch (FileNotFoundException e) {
             System.out.println("File not found, please check your filepath");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
         System.out.println("\n    How may I assist you today? :D");
         printLine();

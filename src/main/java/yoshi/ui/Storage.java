@@ -15,7 +15,7 @@ import yoshi.task.Todo;
 
 public class Storage {
     static Printer printer = new Printer();
-    static String filePath = "./yoshi/data/yoshi.txt";
+    static String filePath = "yoshi/data/yoshi.txt";
 
     public static void updateFile(ArrayList<Task> tasks) throws FileNotFoundException, IOException {
         try {
@@ -24,20 +24,20 @@ public class Storage {
             for (Task task : tasks) {
                 if (task.getDoneStatus()) {
                     if (task.getClass() == Todo.class) {
-                        f.write("T|1|"+task.getDescription()+"\n");
+                        f.write("T | 1 | "+task.getDescription()+"\n");
                     } else if (task.getClass() == Deadline.class) {
-                        f.write("D|1|"+task.getDescription()+"|"+((Deadline) task).getBy()+"\n");
+                        f.write("D | 1 | "+task.getDescription()+" | "+((Deadline) task).getBy()+"\n");
                     } else {
-                        f.write("E|1|"+task.getDescription()+"|"+((Event) task).getFrom()+"|"+((Event) task).getTo()+"\n");
+                        f.write("E | 1 | "+task.getDescription()+" | "+((Event) task).getFrom()+" | "+((Event) task).getTo()+"\n");
                     }
                 }
                 else {
                     if (task.getClass() == Todo.class) {
-                        f.write("T|0|"+task.getDescription()+"\n");
+                        f.write("T | 0 | "+task.getDescription()+"\n");
                     } else if (task.getClass() == Deadline.class) {
-                        f.write("D|0|"+task.getDescription()+"|"+((Deadline) task).getBy()+"\n");
+                        f.write("D | 0 | "+task.getDescription()+" | "+((Deadline) task).getBy()+"\n");
                     } else {
-                        f.write("E|0|"+task.getDescription()+"|"+((Event) task).getFrom()+"|"+((Event) task).getTo()+"\n");
+                        f.write("E | 0 | "+task.getDescription()+" | "+((Event) task).getFrom()+" | "+((Event) task).getTo()+"\n");
                     }
                 }
                 numTasks++;
@@ -45,7 +45,7 @@ public class Storage {
             f.close();
             printer.printWithSeparator("File has been updated successfully!");
         } catch (FileNotFoundException e) {
-            printer.printWithSeparator("");
+            System.out.print("");
         } catch (IOException e) {
             printer.printWithSeparator("Error updating file: " + e.getMessage());
         }
@@ -59,7 +59,7 @@ public class Storage {
                 System.out.println(s.nextLine());
             }
         } catch (FileNotFoundException e) {
-            printer.printWithSeparator("File not found: " + filePath);
+            printer.printWithSeparator("Oh no! You don't have a save file here: " + filePath);
         }
     }
 
@@ -100,7 +100,7 @@ public class Storage {
                 }
             }
         } catch (FileNotFoundException e) {
-           printer.printWithSeparator("File not found: " + filePath);
+           printer.printWithSeparator("Oh no! You don't have a save file here: " + filePath);
         }
     }
 }

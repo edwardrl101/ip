@@ -49,4 +49,14 @@ public class Printer {
 
         printLine();
     }
+
+    public void printDeleteTaskMessage(int numTasks, ArrayList<Task> tasks, int taskNumber) {
+        printLine();
+        printWithIndentation("Sure! I've deleted this task:");
+        printWithIndentation(" " + tasks.get(taskNumber));
+        printWithIndentation("You now have " + (numTasks - 1) +
+                " " + ((numTasks - 1) == 1 ? "task" : "tasks") + " in your list!");
+
+        printLine();
+    }
 }

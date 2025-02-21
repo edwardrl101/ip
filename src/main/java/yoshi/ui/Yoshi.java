@@ -43,6 +43,14 @@ public class Yoshi {
             case "todo":
                 userTaskManager.addTask(line);
                 break;
+            case "delete":
+                if(words.length < 2) {
+                    printer.printWithSeparator("Invalid command: Please enter the index of the task to be deleted.");
+                } else {
+                    int taskNumber = Integer.parseInt(words[1]) - 1;
+                    userTaskManager.deleteTask(taskNumber);
+                }
+                break;
             default:
                 printer.printWithSeparator("Sorry, I am still too underdeveloped to understand that :(\n" +
                         "    Please give me a valid command.");

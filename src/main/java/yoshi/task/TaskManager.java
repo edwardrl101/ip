@@ -130,4 +130,15 @@ public class TaskManager {
         printer.printWithIndentation("  " + tasks.get(taskNumber));
         printer.printLine();
     }
+
+    public void deleteTask(int taskNumber) {
+        if(taskNumber >= numTasks || taskNumber < 0) {
+            printer.printWithSeparator("Hmm, there's no task to delete here.");
+            return;
+        } else {
+            printer.printDeleteTaskMessage(numTasks, tasks, taskNumber);
+            tasks.remove(taskNumber);
+            numTasks--;
+        }
+    }
 }

@@ -1,15 +1,16 @@
 package yoshi.task;
 
+import java.util.ArrayList;
 import yoshi.ui.Printer;
 
 public class TaskManager {
     private static final int MAX_TASKS = 100;
-    private Task[] tasks;
+    private ArrayList<Task> tasks;
     private int numTasks;
     private Printer printer;
 
     public TaskManager() {
-        this.tasks = new Task[MAX_TASKS];
+        this.tasks = new ArrayList<>();
         this.numTasks = 0;
         this.printer = new Printer();
     }
@@ -81,7 +82,7 @@ public class TaskManager {
         String taskType = taskParts[0].trim();
         String taskDetails = taskParts[1].trim();
         try {
-            tasks[numTasks] = initializeTask(taskDetails, taskType);
+            tasks.add(initializeTask(taskDetails, taskType));
             printer.printAddTextMessage(numTasks, tasks);
             numTasks++;
         } catch(ArrayIndexOutOfBoundsException e) {
@@ -97,7 +98,7 @@ public class TaskManager {
         printer.printLine();
         printer.printWithIndentation(" Here are the tasks in your list:");
         for (int i = 1; i <= numTasks; i++) {
-            printer.printWithIndentation( " " + i +"." + tasks[i-1]);
+            printer.printWithIndentation( " " + i +"." + tasks.get(i-1));
         }
         printer.printLine();
     }
@@ -107,7 +108,7 @@ public class TaskManager {
             printer.printWithSeparator("Invalid task number: Please enter a valid task number (1-100).");
             return false;
         }
-        if(tasks[taskNumber] == null) {
+        if(tasks.get(taskNumber) == null) {
             printer.printWithSeparator("Invalid command: You have no task here.");
             return false;
         }
@@ -120,13 +121,13 @@ public class TaskManager {
         }
         printer.printLine();
         if (command.equals("mark")) {
-            tasks[taskNumber].markAsDone();
+            (tasks.get(taskNumber)).markAsDone();
             printer.printWithIndentation(" Great job! I've marked this task as done:");
         } else {
-            tasks[taskNumber].unmarkAsDone();;
+            (tasks.get(taskNumber)).unmarkAsDone();;
             printer.printWithIndentation( " Sure! I've marked this task as not done yet:");
         }
-        printer.printWithIndentation("  " + tasks[taskNumber]);
+        printer.printWithIndentation("  " + tasks.get(taskNumber));
         printer.printLine();
     }
 }

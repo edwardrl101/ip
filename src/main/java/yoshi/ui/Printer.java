@@ -2,6 +2,8 @@ package yoshi.ui;
 
 import yoshi.task.Task;
 
+import java.util.ArrayList;
+
 public class Printer {
     private static final String INDENT = "    ";
     private static final String LINE = INDENT + "____________________________________________________________";
@@ -38,10 +40,10 @@ public class Printer {
         System.out.println(INDENT + text);
     }
 
-    public void printAddTextMessage(int numTasks, Task[] tasks) {
+    public void printAddTextMessage(int numTasks, ArrayList<Task> tasks) {
         printLine();
         printWithIndentation("Sure! I've added this task:");
-        printWithIndentation(" " + tasks[numTasks]);
+        printWithIndentation(" " + tasks.get(numTasks));
         printWithIndentation("You now have " + (numTasks + 1) +
                 " " + ((numTasks + 1) == 1 ? "task" : "tasks") + " in your list!");
 

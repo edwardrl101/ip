@@ -1,4 +1,4 @@
-package yoshi.ui;
+package yoshi.storage;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -11,15 +11,22 @@ import yoshi.task.Deadline;
 import yoshi.task.Event;
 import yoshi.task.Task;
 import yoshi.task.Todo;
+import yoshi.ui.Printer;
 
 public class Storage {
+    private static String filePath;
+
     static Printer printer = new Printer();
     static String FILE_PATH = "yoshi.txt";
     private static final String SUCCESSFUL_UPDATE_MESSAGE = "Yay! Your save file has been updated successfully :D";
 
+    public Storage(String filePath) {
+        this.filePath = filePath;
+    }
+
     public static void updateFile(ArrayList<Task> tasks) throws FileNotFoundException, IOException {
         try {
-            FileWriter f = new FileWriter(FILE_PATH);
+            FileWriter f = new FileWriter(filePath);
             for (Task task : tasks) {
                 String status = task.getDoneStatus() ? "1" : "0";
                 if (task instanceof Todo) {
@@ -31,7 +38,7 @@ public class Storage {
                 }
             }
             f.close();
-            printer.printWithSeparator(SUCCESSFUL_UPDATE_MESSAGE);
+            printer.printWithIndentation(SUCCESSFUL_UPDATE_MESSAGE);
         } catch (FileNotFoundException e) {
             System.out.print("");
         } catch (IOException e) {
@@ -71,18 +78,21 @@ public class Storage {
         }
     }
 
-    public static void readFile(ArrayList<Task> tasks) throws IOException {
-        File f = new File(FILE_PATH);
+    public static ArrayList<Task> loadTasks() throws IOException {
+        File f = new File(filePath);
+        ArrayList<Task> tasks = new ArrayList<>();
         if (f.exists() && !f.isDirectory()) {
-            File file = new File(FILE_PATH); // create a File for the given file path
+            File file = new File(filePath); // create a File for the given file path
             copyTasks(file, tasks);
+            return tasks;
         } else {
             try {
-                File file = new File(FILE_PATH);
+                File file = new File(filePath);
                 file.createNewFile();
             } catch (IOException e) {
-                printer.printWithSeparator("Oh no! I failed to create a file here: " + FILE_PATH);
+                printer.printWithSeparator("Oh no! I failed to create a file here: " + filePath);
             }
         }
+        return tasks;
     }
 }

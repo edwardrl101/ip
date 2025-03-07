@@ -228,4 +228,33 @@ public class TaskManager {
             updateFile(tasks);
         }
     }
+
+
+    public int checkTaskForWord(Task task, String keyword, int count, int taskNum){
+        if (task.getDescription().contains(keyword)) {
+            if (count == 0) {
+                printer.printWithIndentation("Here are the task(s) that matches your search \"" + keyword + "\" :");
+            }
+            printer.printWithIndentation((count+1) + ". " + tasks.get(taskNum-1).toString());
+            return count + 1;
+        }
+        return count;
+    }
+
+    public void findTask(String keyword) {
+        int currTaskNum = 1;
+        int count = 0;
+        printer.printLine();
+        for (Task task : tasks) {
+            count = checkTaskForWord(task, keyword, count, currTaskNum);
+            currTaskNum++;
+        }
+        if(count == 0){
+            printer.printWithIndentation("Oops, there are no tasks that match your search......");
+        }
+        else {
+            printer.printWithIndentation("There are " + count + " tasks that matches your search");
+        }
+        printer.printLine();
+    }
 }

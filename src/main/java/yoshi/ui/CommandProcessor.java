@@ -38,8 +38,13 @@ public class CommandProcessor {
             taskNumber = parser.extractInteger(input) - 1;
             taskManager.printTask(taskNumber);
             break;
+        case "find":
+            String keyword = parser.extractKeyword(input);
+            taskManager.findTask(keyword);
+            break;
         default:
             YoshiException.invalidCommandException();
+            break;
         }
     }
 }

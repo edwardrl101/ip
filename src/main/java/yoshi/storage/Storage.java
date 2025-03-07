@@ -24,6 +24,12 @@ public class Storage {
         this.filePath = filePath;
     }
 
+    /**
+     * Updates the save file whenever a new task is toggled as done/not done, added, or deleted.
+     * @param tasks the task list
+     * @throws FileNotFoundException Exception to be thrown in case file is not found.
+     * @throws IOException Exception to be thrown in case there are issues with updating the file.
+     */
     public static void updateFile(ArrayList<Task> tasks) throws FileNotFoundException, IOException {
         try {
             FileWriter f = new FileWriter(filePath);
@@ -46,6 +52,13 @@ public class Storage {
         }
     }
 
+    /**
+     * Copies the tasks from the save file to the task list.
+     * @param file the file to be read.
+     * @param tasks the task list.
+     * @throws FileNotFoundException Exception to be thrown in case file is not found.
+     * @throws IOException Exception to be thrown in case there are issues with reading the file.
+     */
     public static void copyTasks(File file, ArrayList<Task> tasks) throws FileNotFoundException, IOException {
         Scanner s = new Scanner(file);
         while (s.hasNext()) {
@@ -78,6 +91,11 @@ public class Storage {
         }
     }
 
+    /**
+     * Loads the tasks to the CLI.
+     * @return the task list along with the tasks loaded from the save file.
+     * @throws IOException Exception to be thrown in case there are issues with reading the file.
+     */
     public static ArrayList<Task> loadTasks() throws IOException {
         File f = new File(filePath);
         ArrayList<Task> tasks = new ArrayList<>();

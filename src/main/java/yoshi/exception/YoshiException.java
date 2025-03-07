@@ -3,6 +3,9 @@ import yoshi.ui.Printer;
 
 public class YoshiException extends Exception {
 
+    /**
+     * Pre-defined constants to avoid magic literals.
+     */
     private static Printer printer = new Printer();
     private static final int NO_NUM_PROVIDED = -1;
     private static final int INVALID_NUM_PROVIDED = -2;
@@ -20,10 +23,17 @@ public class YoshiException extends Exception {
         super(message);
     }
 
+    /**
+     * Exception to be thrown when user keys in an undefined command, e.g. "Assign 5".
+     */
     public static void invalidCommandException() {
         printer.printWithSeparator(INVALID_COMMAND_MESSAGE);
     }
 
+    /**
+     * Exception to be thrown when there are issues with task numbers.
+     * @param errorType the type of error that is encountered, e.g. "NO_NUM_PROVIDED".
+     */
     public static void invalidTaskNumberException(String errorType) {
         switch (errorType) {
         case "NO_NUM_PROVIDED":
@@ -40,6 +50,10 @@ public class YoshiException extends Exception {
         }
     }
 
+    /**
+     * Exception to be thrown when there are issues with the task list.
+     * @param errorType the type of error encountered, e.g. "EMPTY_LIST".
+     */
     public static void taskListException(String errorType) {
         switch (errorType) {
         case "EMPTY_LIST":

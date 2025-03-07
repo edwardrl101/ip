@@ -9,6 +9,10 @@ public class Task {
         this.isDone = false;
     }
 
+    /**
+     *
+     * @return the status icon of a task. If task is done, then return "X", else " ".
+     */
     public String getStatusIcon() {
         return (isDone ? "X" : " "); // mark done task with X
     }
@@ -33,6 +37,11 @@ public class Task {
         return isDone;
     }
 
+    /**
+     * Overrides the original toString() method in Java.
+     * @return a string equivalent of the task, with the format as such.
+     * "[X] Study for CS2113"
+     */
     @Override
     public String toString() {
         return "[" + getStatusIcon() + "] " + description;

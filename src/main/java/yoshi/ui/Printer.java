@@ -9,6 +9,9 @@ import java.util.ArrayList;
 import static yoshi.storage.Storage.loadTasks;
 
 public class Printer {
+    /**
+     * Pre-defined constants to avoid magic literals.
+     */
     private static final String INDENT = "    ";
     private static final String LINE = INDENT + "____________________________________________________________";
     private static final String WELCOME_MESSAGE = INDENT + "Hello! I'm Yoshi!\n" +
@@ -25,7 +28,10 @@ public class Printer {
     private static final String FILE_NOT_FOUND_ERROR_MESSAGE = "File not found, please check your filepath";
 
 
-
+    /**
+     * Prints the whole task list.
+     * @param tasks the task list.
+     */
     public void printTasks(ArrayList<Task> tasks) {
         printLine();
         for (Task task : tasks) {
@@ -33,10 +39,21 @@ public class Printer {
         }
         printLine();
     }
+
+    /**
+     * Prints the heading/footing for texts.
+     */
     public void printLine() {
         System.out.println(LINE);
     }
 
+    /**
+     * Prints the text along with the separator, e.g.
+     * "    ____________________________________________________________
+     *      Hello!
+     *      ____________________________________________________________"
+     * @param text text to be printed.
+     */
     public void printWithSeparator(String text) {
         System.out.println(LINE);
         System.out.println(INDENT + text);
@@ -63,11 +80,16 @@ public class Printer {
         printWithSeparator(GOODBYE_MESSAGE);
     }
 
+    /**
+     * Prints text with 4 leading whitespaces, e.g.
+     * "    Hi!"
+     * @param text text to be printed.
+     */
     public void printWithIndentation(String text) {
         System.out.println(INDENT + text);
     }
 
-    public void printAddTextMessage(int numTasks, ArrayList<Task> tasks) {
+    public void printAddTaskMessage(int numTasks, ArrayList<Task> tasks) {
         printLine();
         printWithIndentation(SUCCESSFUL_ADD_TASK_MESSAGE);
         printWithIndentation(" " + tasks.get(numTasks));

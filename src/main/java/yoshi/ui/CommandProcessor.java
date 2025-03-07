@@ -4,9 +4,15 @@ import yoshi.exception.YoshiException;
 import java.io.IOException;
 
 public class CommandProcessor {
-    private Parser parser = new Parser();
+    private Parser parser = new Parser(); // Parser to assist with extracting commands/integers out of inputs
 
-
+    /**
+     * Process the command entered by the user, and calls the taskManager methods to assist with
+     * executing the command.
+     * @param input the exact input entered by the user.
+     * @param taskManager the taskManager of the chatbot.
+     * @throws IOException IOException thrown in case there is an issue with updating the save file properly.
+     */
     public void processCommand(String input, TaskManager taskManager) throws IOException {
         String command = parser.extractCommand(input).toLowerCase();
         int taskNumber;

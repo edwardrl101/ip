@@ -153,32 +153,31 @@ public class TaskManager {
         }
     }
 
-    public void printTask(int taskNumber) {
-        printer.printWithIndentation(tasks.get(taskNumber-1).toString());
-    }
 
-    public int checkTask(Task task, String search, int count, int index){
-        if (task.getDescription().contains(search)) {
-            if (count == 0) System.out.println("    Here are the task(s) that matches your search \"" + search + "\" :");
-            printer.printWithIndentation((count+1) + ". " + tasks.get(index-1).toString());
+    public int checkTaskForWord(Task task, String keyword, int count, int taskNum){
+        if (task.getDescription().contains(keyword)) {
+            if (count == 0) {
+                printer.printWithIndentation("Here are the task(s) that matches your search \"" + keyword + "\" :");
+            }
+            printer.printWithIndentation((count+1) + ". " + tasks.get(taskNum-1).toString());
             return count + 1;
         }
         return count;
     }
 
     public void findTask(String keyword) {
-        int index = 1;
+        int currTaskNum = 1;
         int count = 0;
         printer.printLine();
         for (Task task : tasks) {
-            count = checkTask(task, keyword, count, index);
-            index++;
+            count = checkTaskForWord(task, keyword, count, currTaskNum);
+            currTaskNum++;
         }
         if(count == 0){
-            System.out.println("    Sorry, there are no tasks that matches your search......");
+            printer.printWithIndentation("Oops, there are no tasks that match your search......");
         }
-        else{
-            System.out.println("    There are " + count + " tasks that matches your search");
+        else {
+            printer.printWithIndentation("There are " + count + " tasks that matches your search");
         }
         printer.printLine();
     }

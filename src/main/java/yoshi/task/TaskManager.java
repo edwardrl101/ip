@@ -1,10 +1,9 @@
 package yoshi.task;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import yoshi.ui.Printer;
-import static yoshi.ui.Storage.updateFile;
+import static yoshi.storage.Storage.updateFile;
 
 public class TaskManager {
     private static final int MAX_TASKS = 100;
@@ -15,6 +14,12 @@ public class TaskManager {
     public TaskManager() {
         this.tasks = new ArrayList<>();
         this.numTasks = 0;
+        this.printer = new Printer();
+    }
+
+    public TaskManager(ArrayList<Task> tasks) {
+        this.tasks = tasks;
+        this.numTasks = tasks.size();
         this.printer = new Printer();
     }
 

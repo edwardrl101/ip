@@ -6,11 +6,25 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import static yoshi.ui.Storage.readFile;
+import static yoshi.storage.Storage.loadTasks;
 
 public class Printer {
     private static final String INDENT = "    ";
     private static final String LINE = INDENT + "____________________________________________________________";
+    private static final String WELCOME_MESSAGE = INDENT + "Hello! I'm Yoshi!\n" +
+            "    __   __  _______  _______  __   __  ___ \n" +
+            "   |  | |  ||       ||       ||  | |  ||   |\n" +
+            "   |  |_|  ||   _   ||  _____||  |_|  ||   |\n" +
+            "   |       ||  | |  || |_____ |       ||   |\n" +
+            "   |_     _||  |_|  ||_____  ||       ||   |\n" +
+            "     |   |  |       | _____| ||   _   ||   |\n" +
+            "     |___|  |_______||_______||__| |__||___|";
+    private static final String GOODBYE_MESSAGE = "Bye! Hope to see you again soon! Keep working hard! :-)";
+    private static final String SUCCESSFUL_ADD_TASK_MESSAGE = "Sure! I've added this task:";
+    private static final String SUCCESSFUL_DELETE_TASK_MESSAGE = "Sure! I've deleted this task:";
+    private static final String FILE_NOT_FOUND_ERROR_MESSAGE = "File not found, please check your filepath";
+
+
 
     public void printTasks(ArrayList<Task> tasks) {
         printLine();
@@ -29,22 +43,15 @@ public class Printer {
         System.out.println(LINE);
     }
 
-    public void printWelcomeMessage(ArrayList<Task> tasks) {
+    public void printWelcomeMessage() {
         printLine();
-        System.out.println("    Hello! I'm Yoshi!");
-        System.out.println("    __   __  _______  _______  __   __  ___ \n" +
-                "   |  | |  ||       ||       ||  | |  ||   |\n" +
-                "   |  |_|  ||   _   ||  _____||  |_|  ||   |\n" +
-                "   |       ||  | |  || |_____ |       ||   |\n" +
-                "   |_     _||  |_|  ||_____  ||       ||   |\n" +
-                "     |   |  |       | _____| ||   _   ||   |\n" +
-                "     |___|  |_______||_______||__| |__||___|");
-        System.out.println("Your current list of tasks:");
+        System.out.println(WELCOME_MESSAGE);
+        System.out.println(INDENT + "Your current list of tasks:");
         try {
-            readFile(tasks);
+            ArrayList<Task> tasks = loadTasks();
             printTasks(tasks);
         } catch (FileNotFoundException e) {
-            System.out.println("File not found, please check your filepath");
+            printWithIndentation(FILE_NOT_FOUND_ERROR_MESSAGE);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -53,7 +60,7 @@ public class Printer {
     }
 
     public void printGoodbyeMessage() {
-        printWithSeparator("Bye! Hope to see you again soon! Keep working hard! :-)");
+        printWithSeparator(GOODBYE_MESSAGE);
     }
 
     public void printWithIndentation(String text) {
@@ -62,7 +69,7 @@ public class Printer {
 
     public void printAddTextMessage(int numTasks, ArrayList<Task> tasks) {
         printLine();
-        printWithIndentation("Sure! I've added this task:");
+        printWithIndentation(SUCCESSFUL_ADD_TASK_MESSAGE);
         printWithIndentation(" " + tasks.get(numTasks));
         printWithIndentation("You now have " + (numTasks + 1) +
                 " " + ((numTasks + 1) == 1 ? "task" : "tasks") + " in your list!");
@@ -72,7 +79,7 @@ public class Printer {
 
     public void printDeleteTaskMessage(int numTasks, ArrayList<Task> tasks, int taskNumber) {
         printLine();
-        printWithIndentation("Sure! I've deleted this task:");
+        printWithIndentation(SUCCESSFUL_DELETE_TASK_MESSAGE);
         printWithIndentation(" " + tasks.get(taskNumber));
         printWithIndentation("You now have " + (numTasks - 1) +
                 " " + ((numTasks - 1) == 1 ? "task" : "tasks") + " in your list!");

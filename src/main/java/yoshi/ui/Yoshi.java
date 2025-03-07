@@ -52,6 +52,10 @@ public class Yoshi {
                     userTaskManager.deleteTask(taskNumber);
                 }
                 break;
+            case "find":
+                String keyword = words[1];
+                userTaskManager.findTask(keyword);
+                break;
             default:
                 printer.printWithSeparator("Sorry, I am still too underdeveloped to understand that :(\n" +
                         "    Please give me a valid command.");

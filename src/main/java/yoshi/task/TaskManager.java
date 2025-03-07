@@ -118,6 +118,14 @@ public class TaskManager {
         printer.printLine();
     }
 
+    public void printTask(int taskNumber) {
+        if(taskNumber < 0 || taskNumber > numTasks) {
+            printer.printWithSeparator("Please enter a valid task number!");
+            return;
+        }
+        printer.printWithSeparator(tasks.get(taskNumber).toString());
+    }
+
     public boolean isValidToggleTask(int taskNumber) {
         if(taskNumber < 0 || taskNumber >= MAX_TASKS) {
             printer.printWithSeparator("Invalid task number: Please enter a valid task number (1-100).");

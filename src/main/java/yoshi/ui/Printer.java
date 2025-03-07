@@ -95,7 +95,6 @@ public class Printer {
         printWithIndentation(" " + tasks.get(numTasks));
         printWithIndentation("You now have " + (numTasks + 1) +
                 " " + ((numTasks + 1) == 1 ? "task" : "tasks") + " in your list!");
-
         printLine();
     }
 

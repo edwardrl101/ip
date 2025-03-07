@@ -85,6 +85,5 @@ public class Printer {
                 " " + ((numTasks - 1) == 1 ? "task" : "tasks") + " in your list!");
 
         printLine();
-        // commit
     }
 }

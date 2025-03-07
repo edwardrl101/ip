@@ -1,9 +1,10 @@
 package yoshi.ui;
 
+import yoshi.exception.YoshiException;
+
 public class Parser {
 
-    private static final int SINGLE_ARG_COMMAND = -1;
-    private static final int NO_NUM_PROVIDED = -2;
+    private static final int BAD_INPUT = -1;
 
     public String extractCommand (String input) {
         String[] arguments = input.split(" ", 2);
@@ -16,12 +17,14 @@ public class Parser {
     public int extractInteger (String input) {
         String[] arguments = input.split(" ", 2);
         if(arguments.length < 2) {
-            return SINGLE_ARG_COMMAND;
+            YoshiException.invalidTaskNumberException("NO_NUM_PROVIDED");
+            return BAD_INPUT;
         }
         try {
             return Integer.parseInt(arguments[1]);
         } catch (NumberFormatException e) {
-            return NO_NUM_PROVIDED;
+            YoshiException.invalidTaskNumberException("INVALID_NUM_PROVIDED");
+            return BAD_INPUT;
         }
     }
 }

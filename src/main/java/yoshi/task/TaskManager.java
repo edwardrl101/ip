@@ -3,13 +3,26 @@ package yoshi.task;
 import java.io.IOException;
 import java.util.ArrayList;
 import yoshi.ui.Printer;
+import yoshi.exception.YoshiException;
 import static yoshi.storage.Storage.updateFile;
 
 public class TaskManager {
     private static final int MAX_TASKS = 100;
+    private static final int OUT_OF_BOUNDS = -1;
+    private static final String ERROR_DEADLINE_MESSAGE = "Invalid command: Please specify the deadline.\n"
+            + "     Check that your usage of /by is correct.";
+    private static final String MISSING_EVENT_START_MESSAGE = "Invalid command: Please specify the event start time.\n"
+            + "     Check that your usage of /from is correct";
+    private static final String MISSING_EVENT_END_MESSAGE = "Invalid command: Please specify the event end time.\n"
+            + "     Check that your usage of /to is correct";
+
+
+
+
     private ArrayList<Task> tasks;
     private int numTasks;
     private Printer printer;
+
 
     public TaskManager() {
         this.tasks = new ArrayList<>();
@@ -33,7 +46,8 @@ public class TaskManager {
             return false;
         }
         if(numTasks >= MAX_TASKS) {
-            printer.printWithSeparator("Unable to add task: your task list is full!.");
+            YoshiException.taskListException("FULL_LIST");
+            return false;
         }
         return true;
     }
@@ -61,8 +75,7 @@ public class TaskManager {
     public Deadline initializeDeadline(String task) throws ArrayIndexOutOfBoundsException {
         String[] taskParts = task.split("/by", 2);
         if(taskParts.length < 2) {
-            throw new ArrayIndexOutOfBoundsException("Invalid command: Please specify the deadline.\n"
-            + "     Check that your usage of /by is correct.");
+            throw new ArrayIndexOutOfBoundsException(ERROR_DEADLINE_MESSAGE);
         }
         String activity = taskParts[0].trim();
         String by = taskParts[1].trim();
@@ -72,14 +85,12 @@ public class TaskManager {
     public Event initializeEvent(String task) throws ArrayIndexOutOfBoundsException {
         String[] taskParts = task.split("/from", 2);
         if(taskParts.length < 2) {
-            throw new ArrayIndexOutOfBoundsException("Invalid command: Please specify the event start time.\n"
-            + "     Check that your usage of /from is correct");
+            throw new ArrayIndexOutOfBoundsException(MISSING_EVENT_START_MESSAGE);
         }
         String activity = taskParts[0].trim();
         String[] dates = taskParts[1].split("/to", 2);
         if(dates.length < 2) {
-            throw new ArrayIndexOutOfBoundsException("Invalid command: Please specify the event end time.\n"
-            + "     Check that your usage of /to is correct");
+            throw new ArrayIndexOutOfBoundsException(MISSING_EVENT_END_MESSAGE);
         }
         String from = dates[0].trim();
         String to = dates[1].trim();
@@ -91,7 +102,7 @@ public class TaskManager {
         if(!isValidTaskAdded(taskParts)) {
             return;
         }
-        String taskType = taskParts[0].trim();
+        String taskType = taskParts[0].trim().toLowerCase();
         String taskDetails = taskParts[1].trim();
         try {
             tasks.add(initializeTask(taskDetails, taskType));
@@ -107,7 +118,7 @@ public class TaskManager {
 
     public void listTask() {
         if(numTasks == 0) {
-            printer.printWithSeparator("Oh no! You have no tasks in your list!");
+            YoshiException.taskListException("EMPTY_LIST");
             return;
         }
         printer.printLine();
@@ -120,7 +131,7 @@ public class TaskManager {
 
     public void printTask(int taskNumber) {
         if(taskNumber < 0 || taskNumber > numTasks) {
-            printer.printWithSeparator("Please enter a valid task number!");
+           YoshiException.invalidTaskNumberException("OUT_OF_BOUNDS");
             return;
         }
         printer.printWithSeparator(tasks.get(taskNumber).toString());
@@ -128,11 +139,11 @@ public class TaskManager {
 
     public boolean isValidToggleTask(int taskNumber) {
         if(taskNumber < 0 || taskNumber >= MAX_TASKS) {
-            printer.printWithSeparator("Invalid task number: Please enter a valid task number (1-100).");
+            YoshiException.invalidTaskNumberException("OUT_OF_BOUNDS");
             return false;
         }
         if(tasks.get(taskNumber) == null) {
-            printer.printWithSeparator("Invalid command: You have no task here.");
+            YoshiException.taskListException("NO_TASK_HERE");
             return false;
         }
         return true;
@@ -156,8 +167,7 @@ public class TaskManager {
 
     public void deleteTask(int taskNumber) throws IOException {
         if(taskNumber >= numTasks || taskNumber < 0) {
-            printer.printWithSeparator("Hmm, there's no task to delete here.");
-            return;
+            YoshiException.taskListException("NO_TASK_HERE");
         } else {
             printer.printDeleteTaskMessage(numTasks, tasks, taskNumber);
             tasks.remove(taskNumber);

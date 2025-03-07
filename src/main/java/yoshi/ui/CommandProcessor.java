@@ -1,17 +1,11 @@
 package yoshi.ui;
 import yoshi.task.TaskManager;
-import yoshi.task.Task;
-
+import yoshi.exception.YoshiException;
 import java.io.IOException;
-import java.util.ArrayList;
-import yoshi.ui.Printer;
-import yoshi.ui.Parser;
 
 public class CommandProcessor {
-    private Printer printer = new Printer();
     private Parser parser = new Parser();
-    private static final String INVALID_COMMAND_MESSAGE = "Sorry, I am still too underdeveloped to understand that :(\n" +
-            "    Please give me a valid command.";
+
 
     public void processCommand(String input, TaskManager taskManager) throws IOException {
         String command = parser.extractCommand(input).toLowerCase();
@@ -22,7 +16,7 @@ public class CommandProcessor {
             break;
         case "mark":
         case "unmark":
-            taskNumber = parser.extractInteger(command)-1;
+            taskNumber = parser.extractInteger(input)-1;
             taskManager.toggleTask(taskNumber, command);
             break;
         case "event":
@@ -39,7 +33,7 @@ public class CommandProcessor {
             taskManager.printTask(taskNumber);
             break;
         default:
-            printer.printWithSeparator(INVALID_COMMAND_MESSAGE);
+            YoshiException.invalidCommandException();
         }
     }
 }

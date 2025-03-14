@@ -21,18 +21,18 @@ Currently, these are the fundamental features that you can utilize when chatting
 3. Deleting tasks
 4. Marking/unmarking tasks as done
 5. Finding tasks
+6. Ending the conversation
 
 # Feature Guide
-## Adding tasks
-Adds a task into the task list. Take note that there are 3 types of tasks that 
-you can add into the task list, as we will see below.
 
-### Adding Todos
+## Adding Todos
 Adds a task of type "todo" into the task list.
 
 Format: `todo {taskDescription}`
 
 Example: `todo study for CS test`
+
+Expected Output:
 ```angular2html
     ____________________________________________________________
     Sure! I've added this task:
@@ -43,13 +43,15 @@ Example: `todo study for CS test`
     ____________________________________________________________
 ```
 
-### Adding Deadlines
+## Adding Deadlines
 Adds a task of type "deadline" into the task list. Note that the deadline
 must contain a specific deadline time, else an error message will pop up.
 
 Format: `deadline {taskDescription} /by {deadline}`
 
 Example: `deadline do CS2113 Weekly Quiz /by 11.59pm`
+
+Expected Output:
 ```
     ____________________________________________________________
     Sure! I've added this task:
@@ -60,11 +62,15 @@ Example: `deadline do CS2113 Weekly Quiz /by 11.59pm`
     ____________________________________________________________
 ```
 
-### Adding Events
+## Adding Events
 Adds a task of type "event" into the task list. Note that an event must contain a start time
 and an end time, else an error message will pop up.
 
 Format: `event {taskDescription} /from {startTime} /to {endTime}`
+
+Example: `event CS2113 Lecture /from 4pm /to 6pm`
+
+Expected Output:
 ```angular2html
     ____________________________________________________________
     Sure! I've added this task:
@@ -81,6 +87,8 @@ Lists down all the tasks currently available in the task list, if there are any.
 Format: `list`
 
 Example: `list` (when the list is not empty)
+
+Expected Output:
 ```    
     ____________________________________________________________
      Here are the tasks in your list:
@@ -89,9 +97,11 @@ Example: `list` (when the list is not empty)
      3.[E][ ] CS2113 Lecture (from: 4pm to: 6pm)
     ____________________________________________________________
 ```
-On the other hand, if the list is empty, then an error message will pop up.
+On the other hand, if the list is empty, then the following message will pop up.
 
 Example: `list` (when the list is empty)
+
+Expected Output:
 ```angular2html
     ____________________________________________________________
     Oh no! Your task list is empty!
@@ -111,7 +121,7 @@ If for example, task 1 is a valid task in the list as follows.
 ```angular2html
     1. [T][ ] come to lecture
 ```
-then deleting this task will show the following result.
+then the expected output is:
 
 ```
     ____________________________________________________________
@@ -125,15 +135,16 @@ then deleting this task will show the following result.
 
 
 
-## Marking/unmarking tasks as done
+## Marking tasks as done
 
-Marks the corresponding task as done, or unmarks the corresponding task as done.
+Marks the corresponding task as done.
 
-For marking, the format is: `mark {taskNumber}` and 
+Format: `mark {taskNumber}` 
 
-similarly, the format for unmarking is: `unmark {taskNumber}`
 
-Example 1: `mark 1`
+Example: `mark 1`
+
+Expected Output:
 ```angular2html
     ____________________________________________________________
      Great job! I've marked this task as done:
@@ -141,7 +152,14 @@ Example 1: `mark 1`
     ____________________________________________________________
 ```
 
-Example 2: `unmark 1`
+## Unmarking tasks as done
+Unmarks a previously completed task as incomplete.
+
+Format: `unmark {taskNumber}`
+
+Example: `unmark 1`
+
+Expected Output:
 ```angular2html
     ____________________________________________________________
      Sure! I've marked this task as not done yet:
@@ -156,6 +174,8 @@ Finds tasks that contain a certain keyword.
 Format: `find {keyword}`
 
 Example: `find lecture`
+
+Expected Output:
 ```angular2html
     ____________________________________________________________
     Here are the matching tasks containing "lecture" in your list:
@@ -172,8 +192,28 @@ Format: `print {taskNumber}`
 
 Example: `print 1`
 
+Expected Output:
 ```angular2html
 ____________________________________________________________
  [T][ ] come to lecture
 ____________________________________________________________
 ```
+
+## Ending the conversation
+Ends the conversation with Yoshi and shuts down the chatbot.
+
+Format: `bye`
+
+Example: `bye`
+
+Expected Output:
+```angular2html
+    ____________________________________________________________
+    Bye! Hope to see you again soon! Keep working hard! :-)
+    ____________________________________________________________
+```
+
+# Closing Remarks
+Thank you for using Yoshi! We hope you have fun and continue being productive
+with the help of Yoshi! Should you encounter any difficulties, please refer
+to this user guide or the error messages to guide you on what went wrong :).

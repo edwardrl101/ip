@@ -167,9 +167,17 @@ public class TaskManager {
         printer.printLine();
     }
 
+    /**
+     * Prints the task with the corresponding task number
+     * @param taskNumber the task number of the task to be printed
+     */
     public void printTask(int taskNumber) {
-        if(taskNumber < 0 || taskNumber >= numTasks) {
+        if(taskNumber < 0 || taskNumber >= MAX_TASKS) {
             YoshiException.invalidTaskNumberException("OUT_OF_BOUNDS");
+            return;
+        }
+        if(taskNumber >= numTasks) {
+            YoshiException.taskListException("NO_TASK_HERE");
             return;
         }
         printer.printWithSeparator(" " + tasks.get(taskNumber).toString());
@@ -229,6 +237,17 @@ public class TaskManager {
         }
     }
 
+    /**
+     * This method takes in a task, and checks if it has a particular keyword in it. If count == 0,
+     * then the method prints the message "Here are the matching tasks containing {keyword} in your list"
+     * since it is the first one.
+     *
+     * @param task the task to be checked
+     * @param keyword the desired keyword to be found
+     * @param count how many tasks currently have the desired keyword in it
+     * @param taskNum the corresponding task number
+     * @return the updated count (+1 if the keyword is found in the task, not updated otherwise)
+     */
 
     public int checkTaskForWord(Task task, String keyword, int count, int taskNum){
         if (task.getDescription().contains(keyword)) {
@@ -241,6 +260,10 @@ public class TaskManager {
         return count;
     }
 
+    /**
+     * This method takes in a keyword and lists out all the tasks that have this particular keyword
+     * @param keyword The desired keyword
+     */
     public void findTask(String keyword) {
         int currTaskNum = 1;
         int count = 0;

@@ -46,7 +46,7 @@ public class Storage {
             f.close();
             printer.printWithIndentation(SUCCESSFUL_UPDATE_MESSAGE);
         } catch (FileNotFoundException e) {
-            System.out.print("");
+            System.out.print("Cannot find a file here" + filePath);
         } catch (IOException e) {
             printer.printWithSeparator("Error updating file: " + e.getMessage());
         }

@@ -244,20 +244,20 @@ public class TaskManager {
      *
      * @param task the task to be checked
      * @param keyword the desired keyword to be found
-     * @param count how many tasks currently have the desired keyword in it
+     * @param taskCount how many tasks currently have the desired keyword in it
      * @param taskNum the corresponding task number
      * @return the updated count (+1 if the keyword is found in the task, not updated otherwise)
      */
 
-    public int checkTaskForWord(Task task, String keyword, int count, int taskNum){
+    public int checkTaskForWord(Task task, String keyword, int taskCount, int taskNum){
         if (task.getDescription().contains(keyword)) {
-            if (count == 0) {
+            if (taskCount == 0) {
                 printer.printWithIndentation("Here are the matching tasks containing \"" + keyword + "\" in your list :");
             }
-            printer.printWithIndentation((count+1) + ". " + tasks.get(taskNum-1).toString());
-            return count + 1;
+            printer.printWithIndentation((taskCount+1) + ". " + tasks.get(taskNum-1).toString());
+            return taskCount + 1;
         }
-        return count;
+        return taskCount;
     }
 
     /**
@@ -266,18 +266,18 @@ public class TaskManager {
      */
     public void findTask(String keyword) {
         int currTaskNum = 1;
-        int count = 0;
+        int taskCount = 0;
         printer.printLine();
         for (Task task : tasks) {
-            count = checkTaskForWord(task, keyword, count, currTaskNum);
+            taskCount = checkTaskForWord(task, keyword, taskCount, currTaskNum);
             currTaskNum++;
         }
-        if(count == 0){
+        if(taskCount == 0){
             printer.printWithIndentation("Oops, there are no tasks that contain" + " \"" + keyword + "\" in your search......");
         }
         else {
-            printer.printWithIndentation("There " + ((count == 1) ? ("is " + count + " task") : ("are " + count + " tasks"))   + " that matches your search");
-            // Use the plural form if there are more than 1 tasks matching, else use the singular form.
+            printer.printWithIndentation("There " + ((taskCount == 1) ? ("is " + taskCount + " task") : ("are " + taskCount + " tasks"))   + " that matches your search");
+            // Use the plural form if there is more than 1 task matching, else use the singular form.
         }
         printer.printLine();
     }

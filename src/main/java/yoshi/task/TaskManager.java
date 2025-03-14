@@ -169,10 +169,10 @@ public class TaskManager {
 
     public void printTask(int taskNumber) {
         if(taskNumber < 0 || taskNumber > numTasks) {
-           YoshiException.invalidTaskNumberException("OUT_OF_BOUNDS");
+            YoshiException.invalidTaskNumberException("OUT_OF_BOUNDS");
             return;
         }
-        printer.printWithSeparator(tasks.get(taskNumber).toString());
+        printer.printWithSeparator(" " + tasks.get(taskNumber).toString());
     }
 
     /**

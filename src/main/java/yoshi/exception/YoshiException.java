@@ -18,6 +18,7 @@ public class YoshiException extends Exception {
     private static final String EMPTY_LIST_MESSAGE = "Oh no! Your task list is empty!";
     private static final String FULL_LIST_MESSAGE = "Unable to add task. Your task list is full!";
     private static final String NO_TASK_MESSAGE = "Hmm, I can't seem to find a task here...";
+    private static final String NO_KEYWORD_MESSAGE = "Please key in the corresponding task keyword.";
 
     public YoshiException(String message) {
         super(message);
@@ -44,6 +45,9 @@ public class YoshiException extends Exception {
             break;
         case "OUT_OF_BOUNDS":
             printer.printWithSeparator(OUT_OF_BOUNDS_MESSAGE);
+            break;
+        case "NO_KEYWORD":
+            printer.printWithSeparator(NO_KEYWORD_MESSAGE);
             break;
         default:
             break;

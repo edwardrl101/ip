@@ -1,7 +1,0 @@
-D | 0 | watch lecture recording | 11.59pm
-T | 0 | study for CS test
-D | 0 | do CS2113 Weekly Quiz | 11.59pm
-E | 0 | CS2113 Lecture | 4pm | 6pm
-T | 0 | watch movie
-E | 0 | lecture | 4pm | 6pm
-D | 0 | homework | 11.59pm

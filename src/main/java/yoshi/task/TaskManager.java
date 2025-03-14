@@ -168,7 +168,7 @@ public class TaskManager {
     }
 
     public void printTask(int taskNumber) {
-        if(taskNumber < 0 || taskNumber > numTasks) {
+        if(taskNumber < 0 || taskNumber >= numTasks) {
             YoshiException.invalidTaskNumberException("OUT_OF_BOUNDS");
             return;
         }
@@ -185,7 +185,7 @@ public class TaskManager {
             YoshiException.invalidTaskNumberException("OUT_OF_BOUNDS");
             return false;
         }
-        if(tasks.get(taskNumber) == null) {
+        if(taskNumber >= numTasks) {
             YoshiException.taskListException("NO_TASK_HERE");
             return false;
         }

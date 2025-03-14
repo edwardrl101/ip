@@ -155,7 +155,7 @@ Finds tasks that contain a certain keyword.
 
 Format: `find {keyword}`
 
-Example: `find {lecture}`
+Example: `find lecture`
 ```angular2html
     ____________________________________________________________
     Here are the matching tasks containing "lecture" in your list:
@@ -163,4 +163,17 @@ Example: `find {lecture}`
     2. [D][ ] watch lecture recording (by: 11.59pm)
     There are 2 tasks that matches your search
     ____________________________________________________________
+```
+
+## Printing tasks
+Prints the corresponding task with the task number.
+
+Format: `print {taskNumber}`
+
+Example: `print 1`
+
+```angular2html
+____________________________________________________________
+ [T][ ] come to lecture
+____________________________________________________________
 ```
